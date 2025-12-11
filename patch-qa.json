@@ -1,0 +1,13 @@
+{
+  "spec": {
+    "source": {
+      "path": "k8s/overlays/qa"
+    },
+    "syncPolicy": {
+      "automated": {
+        "prune": true,
+        "selfHeal": true
+      }
+    }
+  }
+}
