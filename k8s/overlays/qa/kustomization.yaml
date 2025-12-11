@@ -3,6 +3,6 @@ resources:
 
 images:
 - name: ghcr.io/hamza18599/myapp
-  newTag: 4134d80b24af642726a788159df5553d8cd7ffd2
+  newTag: a9100eaca8419ec3736bc4a126ad2f4f7e881875
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
