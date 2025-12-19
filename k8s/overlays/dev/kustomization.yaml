@@ -3,4 +3,4 @@ resources:
 
 images:
   - name: ghcr.io/hamza18599/myapp
-    newTag: dev
+    newTag: d3dde584d907c5403d6befd3b58add4ee92bab75
