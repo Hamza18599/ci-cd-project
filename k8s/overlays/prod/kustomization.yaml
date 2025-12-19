@@ -1,6 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 resources:
-  - ../../base
-
+- ../../base
+namespace: prod
 images:
-  - name: ghcr.io/hamza18599/myapp
-    newTag: prod
+- name: myapp
+  newName: ghcr.io/hamza18599/myapp
+  newTag: d3dde584d907c5403d6befd3b58add4ee92bab75 # PLAK HIER DE CODE VAN DEV
