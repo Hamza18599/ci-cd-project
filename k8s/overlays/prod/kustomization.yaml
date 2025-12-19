@@ -2,5 +2,5 @@ resources:
   - ../../base
 
 images:
-  - name: ghcr.io/hamza18599/myapp:4134d80b24af642726a788159df5553d8cd7ffd2
-    newTag: prod
+  - name: ghcr.io/hamza18599/myapp
+    newTag: 4134d80b24af642726a788159df5553d8cd7ffd2
