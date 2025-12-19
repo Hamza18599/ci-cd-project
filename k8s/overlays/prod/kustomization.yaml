@@ -1,9 +1,6 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
 resources:
-- ../../base
-namespace: prod
+  - ../../base
+
 images:
-- name: cloud-native-app
-  newName: NOOR/cloud-native-app # Zorg dat NOOR je Docker Hub naam is
-  newTag: prod-latest
+  - name: ghcr.io/hamza18599:myapp:prod
+    newTag: prod
