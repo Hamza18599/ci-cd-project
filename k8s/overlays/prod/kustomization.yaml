@@ -2,5 +2,5 @@ resources:
   - ../../base
 
 images:
-  - name: ghcr.io/hamza18599:myapp:prod
+  - name: ghcr.io/hamza18599:myapp/prod
     newTag: prod
