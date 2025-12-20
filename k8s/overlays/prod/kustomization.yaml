@@ -2,7 +2,7 @@ resources:
   - ../../base
 
 images:
-  - name: ghcr.io/hamza18599/myapp
+  - name: ghcr.io/hamza18599/myapp:prod
     newTag: 4134d80b24af642726a788159df5553d8cd7ffd2
 imagePullSecrets:
   - name: ghcr-secret
