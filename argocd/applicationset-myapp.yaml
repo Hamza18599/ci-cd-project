@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: myapp
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+            branch: dev
+            namespace: dev
+            path: k8s/overlays/dev
+          - env: qa
+            branch: qa
+            namespace: qa
+            path: k8s/overlays/qa
+          - env: prod
+            branch: master
+            namespace: prod
+            path: k8s/overlays/prod
+
+  template:
+    metadata:
+      name: myapp-{{env}}
+      labels:
+        app: myapp
+        env: "{{env}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Hamza18599/ci-cd-project.git
+        targetRevision: "{{branch}}"
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
