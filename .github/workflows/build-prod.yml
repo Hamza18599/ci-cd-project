@@ -1,9 +1,9 @@
-name: Build QA Image
+name: Build Prod Image
 
 on:
   push:
     branches:
-      - qa
+      - master
 
 permissions:
   contents: read
@@ -25,9 +25,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Build & Push QA image
+      - name: Build & Push PROD image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ghcr.io/hamza18599/myapp:qa
+          tags: ghcr.io/hamza18599/myapp:latest
+
