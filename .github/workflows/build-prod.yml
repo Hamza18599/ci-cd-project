@@ -1,4 +1,5 @@
 name: Build & Deploy (Prod)
+
 on:
   push:
     branches:
@@ -11,26 +12,35 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & Push Image
+      - name: Build & Push Docker Image (latest + sha)
         run: |
-          docker build -t ghcr.io/hamza18599/myapp:${{ github.sha }} .
+          docker build \
+            -t ghcr.io/hamza18599/myapp:latest \
+            -t ghcr.io/hamza18599/myapp:${{ github.sha }} .
+          docker push ghcr.io/hamza18599/myapp:latest
           docker push ghcr.io/hamza18599/myapp:${{ github.sha }}
 
-      - name: Update Kustomize
+      - name: Update Kustomize (prod)
         working-directory: k8s/overlays/prod
         run: |
-          kustomize edit set image ghcr.io/hamza18599/myapp:${{ github.sha }}
+          kustomize edit set image ghcr.io/hamza18599/myapp=ghcr.io/hamza18599/myapp:latest
           git config user.name "ci-bot"
           git config user.email "ci-bot@local"
           git add .
-          git commit -m "prod: update image" || true
+          git commit -m "prod: update image to latest" || true
           git push
