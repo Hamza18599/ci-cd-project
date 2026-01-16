@@ -31,4 +31,3 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/hamza18599/myapp:latest
-
