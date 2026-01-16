@@ -1,11 +1,12 @@
-name: Build & Deploy (QA)
+name: Build Prod Image
+
 on:
   push:
     branches:
-      - qa
+      - main
 
 permissions:
-  contents: write
+  contents: read
   packages: write
 
 jobs:
@@ -13,24 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_PAT }}
 
-      - name: Build & Push Image
-        run: |
-          docker build -t ghcr.io/hamza18599/myapp:${{ github.sha }} .
-          docker push ghcr.io/hamza18599/myapp:${{ github.sha }}
-
-      - name: Update Kustomize
-        working-directory: k8s/overlays/qa
-        run: |
-          kustomize edit set image ghcr.io/hamza18599/myapp:${{ github.sha }}
-          git config user.name "ci-bot"
-          git config user.email "ci-bot@local"
-          git add .
-          git commit -m "qa: update image" || true
-          git push
+      - name: Build & Push PROD image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/hamza18599/myapp:latest
