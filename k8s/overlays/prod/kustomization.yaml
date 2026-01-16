@@ -3,4 +3,4 @@ resources:
 
 images:
   - name: ghcr.io/hamza18599/myapp
-    newTag: latest
+    newTag: prod
