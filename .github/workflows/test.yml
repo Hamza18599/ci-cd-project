@@ -1,19 +1,29 @@
 name: Test (CI)
+
 on:
-  pull_request:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - dev
+      - master
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Install & Test
-        run: |
-          npm ci
-          npm test
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: app
+
+      - name: Run tests
+        run: npm test
+        working-directory: app
